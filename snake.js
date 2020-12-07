@@ -9,13 +9,13 @@ food=getRandomFood();
 game_score=0;
 
 food_img=new Image();
-food_img.src="images/apple2.png";
+food_img.src="https://i.imgur.com/88saChB.png";
 trophy=new Image();
 trophy.src="images/trophy1.png";
 
 snake={
     init_len:5,
-    color:"blue",
+    color:"black",
     cells:[],
     direction:"Right",
 
@@ -36,6 +36,7 @@ snake={
         {
             console.log("food eaten");
             food=getRandomFood();
+            playConsume();
             game_score++;
         }
         else{
@@ -63,6 +64,7 @@ else if(this.direction=="Up"){
     var nextX=headX;
 var nextY=headY-1;
 }
+
 this.cells.unshift({x:nextX,y:nextY});
 
 last_x=Math.round(w/cs);
@@ -75,25 +77,43 @@ if(this.cells[0].x<0||this.cells[0].y<0||this.cells[0].x>last_x-1||this.cells[0]
     },
     
 };
+
+function playAudio(){
+    var audio = new Audio('https://www.soundjay.com/switch/switch-1.wav');
+    audio.play();			
+}
+
+function playConsume(){			
+    var audio = new Audio('https://www.soundjay.com/button/button-3.wav');
+    audio.play();			
+}
+
 snake.createsnake();
 
 function keyPressed(e){
+    play="false";
 
     if(e.key=="ArrowRight")
     {
         snake.direction="Right";
+play="true";
     }
     else if(e.key=="ArrowLeft")
     {
         snake.direction="Left";
+        play="true";
     }
     else if(e.key=="ArrowDown")
     {
         snake.direction="Down";
+        play="true";
     }
     else{
         snake.direction="Up";
+        play="true";
     }
+    if(play=="true")
+playAudio();
 
 }
 document.addEventListener('keydown',keyPressed);
